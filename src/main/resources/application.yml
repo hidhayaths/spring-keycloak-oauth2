@@ -1,5 +1,7 @@
 spring:
   security:
+    keycloak:
+      resourceId: ${KEYCLOAK_RESOURCE_ID:spring-client-auth}
     oauth2:
       client:
       resourceserver:

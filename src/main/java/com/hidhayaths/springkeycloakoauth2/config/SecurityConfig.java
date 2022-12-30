@@ -1,5 +1,6 @@
 package com.hidhayaths.springkeycloakoauth2.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,11 +17,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(jsr250Enabled = true,securedEnabled = true)
 public class SecurityConfig {
 
-    private static final String clientId="spring-auth-client";
+    @Value("${spring.security.keycloak.resourceId}")
+    private String resourceId;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
                 .cors().disable()
                 .authorizeHttpRequests()
@@ -28,7 +29,7 @@ public class SecurityConfig {
                 .authenticated()
                 .and()
                 .oauth2ResourceServer()
-                .jwt(jwt->jwt.jwtAuthenticationConverter(new CustomJwtAuthenticationConverter(clientId))).and()
+                .jwt(jwt->jwt.jwtAuthenticationConverter(new CustomJwtAuthenticationConverter(resourceId))).and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling()
