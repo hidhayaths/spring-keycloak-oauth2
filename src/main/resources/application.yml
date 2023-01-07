@@ -1,13 +1,13 @@
 spring:
   security:
-    keycloak:
-      resourceId: ${KEYCLOAK_RESOURCE_ID:spring-client-auth}
     oauth2:
-      client:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8191/auth/realms/spring-auth
           jwk-set-uri: http://localhost:8191/auth/realms/spring-auth/protocol/openid-connect/certs
   application:
     name: auth-server
+
+server:
+  port: 8080
 
